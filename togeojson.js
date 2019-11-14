@@ -1,4 +1,4 @@
-var toGeoJSON = (function() {
+var toGeoJSON = function(customSerializer) {
     'use strict';
 
     var removeSpace = /\s*/g,
@@ -83,6 +83,8 @@ var toGeoJSON = (function() {
     if (typeof XMLSerializer !== 'undefined') {
         /* istanbul ignore next */
         serializer = new XMLSerializer();
+    } else if (customSerializer) {
+        serializer = new customSerializer();
     } else {
         var isNodeEnv = (typeof process === 'object' && !process.browser);
         var isTitaniumEnv = (typeof Titanium === 'object');
@@ -454,6 +456,6 @@ var toGeoJSON = (function() {
         }
     };
     return t;
-})();
+};
 
 if (typeof module !== 'undefined') module.exports = toGeoJSON;
